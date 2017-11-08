@@ -2,14 +2,18 @@ module FileDb
   require 'json'
 
   class Database
-      attr_accessor :hash
+      attr_accessor :db_hash
 
     def initialize(data_file)
-      @hash = path_to_hash(data_file)
+      @db_hash = path_to_hash(data_file)
     end
 
     def table_names
-      @hash.keys.sort
+      @db_hash.keys.sort
+    end
+
+    def table(table_name)
+      table = Table.new(@db_hash[table_name])
     end
 
     private
@@ -18,6 +22,5 @@ module FileDb
         file = File.read(path)
         hash = JSON.parse(file)
       end
-
   end
 end
